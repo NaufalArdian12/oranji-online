@@ -1,3 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -62,6 +64,50 @@
 @layer base {
     * {
         @apply border-border;
+        font-family: 'SF Pro Display', sans-serif;
+    }
+
+    .theme-transitioning * {
+        transition: background 1s, border 1s, color 1s;
+    }
+
+    /* Overlay untuk animasi dark mode */
+    .theme-transition-overlay-dark {
+        position: fixed;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        clip-path: circle(0% at center);
+        background-color: #1a1a1a;
+        transition: clip-path 1s ease-in-out;
+    }
+
+    /* Overlay untuk animasi light mode */
+    .theme-transition-overlay-light {
+        position: fixed;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        clip-path: circle(150% at center);
+        background-color: #ffffff;
+        transition: clip-path 1s ease-in-out;
+        opacity: 0;
+    }
+
+    /* Animasi ketika dark mode aktif */
+    html.dark .theme-transition-overlay-dark {
+        clip-path: circle(150% at center);
+        opacity: 1;
+    }
+
+    /* Animasi ketika light mode aktif */
+    html.dark .theme-transition-overlay-light {
+        opacity: 1;
+        clip-path: circle(0% at center);
     }
 
     body {

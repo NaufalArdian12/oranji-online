@@ -1,51 +1,43 @@
-import * as React from "react"
-import {Moon, Sun} from "lucide-react"
-
-import {Button} from "@/components/ui/button"
-import {DropdownMenu} from "@/components/ui/dropdown-menu.tsx";
-import {DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@radix-ui/react-dropdown-menu";
-import {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
+import {Moon, Sun} from "lucide-react";
 
 export function ModeToggle() {
-    const [theme, setThemeState] = useState<
-        "theme-light" | "dark" | "system"
-    >("theme-light")
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
-        const isDarkMode = document.documentElement.classList.contains("dark")
-        setThemeState(isDarkMode ? "dark" : "theme-light")
-    }, [])
+        const isDark = document.documentElement.classList.contains("dark");
+        setIsDarkMode(isDark);
+    }, []);
 
     useEffect(() => {
-        const isDark =
-            theme === "dark" ||
-            (theme === "system" &&
-                window.matchMedia("(prefers-color-scheme: dark)").matches)
-        document.documentElement.classList[isDark ? "add" : "remove"]("dark")
-    }, [theme])
+        document.documentElement.classList[isDarkMode ? "add" : "remove"]("dark");
+    }, [isDarkMode]);
+
+    const toggleTheme = () => {
+        document.documentElement.classList.add('theme-transitioning');
+        setIsDarkMode((prev) => !prev)
+
+        setTimeout(() => {
+            document.documentElement.classList.remove('theme-transitioning');
+        }, 500);
+    };
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                    <Sun
-                        className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"/>
-                    <Moon
-                        className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"/>
-                    <span className="sr-only">Toggle theme</span>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setThemeState("theme-light")}>
-                    Light
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setThemeState("dark")}>
-                    Dark
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setThemeState("system")}>
-                    System
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    )
+        <>
+            <button
+                onClick={toggleTheme}
+                className={`relative flex h-8 w-16 items-center rounded-full transition-colors ${
+                    isDarkMode ? "bg-gray-800" : "border border-gray-800"
+                }`}
+            >
+      <span
+          className={`absolute flex h-6 w-6 items-center justify-center rounded-full bg-orange-500 text-white transition-transform ${
+              isDarkMode ? "translate-x-0" : "translate-x-8"
+          }`}
+      >
+        {isDarkMode ? <Moon className="h-4 w-4"/> : <Sun className="h-4 w-4"/>}
+      </span>
+            </button>
+        </>
+    );
 }
