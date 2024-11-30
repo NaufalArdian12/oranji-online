@@ -1,0 +1,54 @@
+---
+import Arrow from '@/assets/svgr/arrow-up-right.astro';
+import Home1 from '@/assets/svgr/home-1.astro';
+import Home2 from '@/assets/svgr/home-2.astro';
+
+const items = [
+    {
+        text: 'Over 100 clients<br> have used our<br> services',
+        HomeComponent: Home1,
+    },
+    {
+        text: 'Creative Expertise <br> in Innovative <br> Design',
+        HomeComponent: Home2,
+    },
+];
+---
+
+<section class="grid grid-cols-2 max-md:grid-cols-1 justify-between items-center w-full h-full">
+    <div class="flex flex-col gap-12">
+        <div>
+            <h1 class="text-[4.875rem] text-black font-medium dark:text-white">Turn <span class="text-primary">good ideas</span>
+            </h1>
+            <h1 class="text-[4.875rem] text-black -mt-8 font-medium dark:text-white">into <span
+                    class="text-primary">great designs.</span></h1>
+        </div>
+        <div class="flex flex-col gap-8">
+            <a href="#"
+               class="rounded-full px-4 py-3 flex gap-9 bg-neutral-100 w-fit text-2xl font-light dark:text-black">
+                Get your design
+                <div class="p-2 rounded-full bg-white cursor-pointer active:scale-90 transition-transform duration-200">
+                    <Arrow/>
+                </div>
+            </a>
+            <div class="flex gap-9">
+                {items.map((item) => (
+                        <div class="bg-neutral-100 rounded-3xl h-[20vh] w-full flex flex-col justify-between p-4 relative overflow-hidden">
+                            <p class="text-2xl font-semibold dark:text-black" set:html={item.text}></p>
+                            <button
+                                    class="p-3 rounded-full bg-black w-fit cursor-pointer active:scale-90 transition-transform duration-200"
+                                    aria-label="Arrow Button"
+                            >
+                                <Arrow color="white"/>
+                            </button>
+
+                            <div class="absolute right-0 bottom-0">
+                                <item.HomeComponent/>
+                            </div>
+                        </div>
+                ))}
+            </div>
+        </div>
+    </div>
+    <div class="flex border border-black">AKU TAK TAU INI APA</div>
+</section>
