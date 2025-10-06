@@ -2,6 +2,7 @@
 import '@/styles/globals.css'
 import Layout from '@/layouts/Layout.astro';
 import {Navbar} from '@/components/Navbar';
+import Hero from '@/components/Hero.astro';
 ---
 <script is:inline>
     const getThemePreference = () => {
@@ -27,7 +28,9 @@ import {Navbar} from '@/components/Navbar';
     <div class="theme-transition-overlay-light"></div>
     <main class="w-full px-28 pt-7">
         <Navbar client:load/>
+        <Hero
         <div id="about"></div>
+        
     </main>
 </Layout>
 
